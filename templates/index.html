@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akhil — Full Stack Developer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor"></div>
+<div id="cursor-dot"></div>
+
+<!-- Loader -->
+<div id="loader">
+    <div class="loader-title">AKHIL</div>
+    <div class="loader-sub">// FULL STACK DEVELOPER</div>
+    <div class="loader-bar"></div>
+</div>
+
+<!-- Canvas -->
+<canvas id="webgl"></canvas>
+
+<!-- Corner accents -->
+<div class="corner corner--tl"></div>
+<div class="corner corner--tr"></div>
+<div class="corner corner--bl"></div>
+<div class="corner corner--br"></div>
+
+<!-- Top UI -->
+<div id="ui">
+    <div>
+        <div class="ui-name">AKHIL</div>
+        <div class="ui-role">// VENKATA DURGA AKHIL VEDULLAPALLI</div>
+    </div>
+    <nav>
+        <a href="#" onclick="showOverlay('about-overlay');return false;">About</a>
+        <a href="#" onclick="showOverlay('skills-overlay');return false;">Skills</a>
+        <a href="#" onclick="showOverlay('contact-overlay');return false;">Contact</a>
+    </nav>
+</div>
+
+<!-- Side strip -->
+<div id="side-strip">FULL STACK DEVELOPER</div>
+
+<!-- HUD -->
+<div id="hud">
+    <div class="hud-hint"><span>WASD</span>NAVIGATE</div>
+    <div class="hud-hint"><span>HOVER</span>INSPECT GEM</div>
+    <div class="hud-hint"><span>CLICK</span>VIEW PROJECT</div>
+</div>
+
+<!-- About -->
+<div id="about-overlay">
+    <div class="overlay-panel">
+        <button class="overlay-close" onclick="hideOverlay('about-overlay')">✕</button>
+        <div class="overlay-tag">// WHO I AM</div>
+        <h2 class="overlay-title">Full Stack<br>Developer</h2>
+        <p class="overlay-body">
+            I'm <strong>Venkata Durga Akhil Vedullapalli</strong>, A full stack developer
+            who builds end-to-end web applications, automation tools, and data pipelines.
+            From crafting responsive frontends to engineering robust backends with Python
+            and Node.js, I bring ideas from concept to production.<br><br>
+            I specialize in backend systems with FastAPI, Django and Flask,
+            data wrangling with Pandas and NumPy, and browser automation
+            with Selenium and BeautifulSoup. On the frontend I work with
+            vanilla JS, Bootstrap and modern tooling to ship clean, fast interfaces.
+        </p>
+    </div>
+</div>
+
+<!-- Skills -->
+<div id="skills-overlay">
+    <div class="overlay-panel">
+        <button class="overlay-close" onclick="hideOverlay('skills-overlay')">✕</button>
+        <div class="overlay-tag">// TECH STACK</div>
+        <h2 class="overlay-title">Skills &<br>Technologies</h2>
+        <div class="skills-grid">
+            <div class="skill-chip">Python</div>
+            <div class="skill-chip">JavaScript</div>
+            <div class="skill-chip">HTML</div>
+            <div class="skill-chip">CSS</div>
+            <div class="skill-chip">Bootstrap</div>
+            <div class="skill-chip">Flask</div>
+            <div class="skill-chip">Django</div>
+            <div class="skill-chip">FastAPI</div>
+            <div class="skill-chip">Node.js</div>
+            <div class="skill-chip">Express</div>
+            <div class="skill-chip">MongoDB</div>
+            <div class="skill-chip">Selenium</div>
+            <div class="skill-chip">BeautifulSoup</div>
+            <div class="skill-chip">Pydantic</div>
+            <div class="skill-chip">Pandas</div>
+            <div class="skill-chip">NumPy</div>
+            <div class="skill-chip">Steamlib</div>
+            <div class="skill-chip">REST APIs</div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact -->
+<div id="contact-overlay">
+    <div class="overlay-panel">
+        <button class="overlay-close" onclick="hideOverlay('contact-overlay')">✕</button>
+        <div class="overlay-tag">// GET IN TOUCH</div>
+        <h2 class="overlay-title">Let's Build<br>Something</h2>
+        <div class="contact-links">
+            <a class="contact-link" href="mailto:akhil@example.com">
+                <span class="contact-link-label">Email</span>vvdakhil999@gmail.com
+            </a>
+            <a class="contact-link" href="https://github.com/akhilvvd" target="_blank">
+                <span class="contact-link-label">GitHub</span>github.com/akhil
+            </a>
+            <a class="contact-link" href="https://linkedin.com" target="_blank">
+                <span class="contact-link-label">LinkedIn</span>linkedin.com
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<script>
+    // Overlay controls
+    function showOverlay(id) { document.getElementById(id).classList.add('visible'); }
+    function hideOverlay(id) { document.getElementById(id).classList.remove('visible'); }
+    document.querySelectorAll('#about-overlay,#skills-overlay,#contact-overlay').forEach(el => {
+        el.addEventListener('click', e => { if (e.target === el) el.classList.remove('visible'); });
+    });
+    window.addEventListener('keydown', e => {
+        if (e.key === 'Escape') document.querySelectorAll('#about-overlay,#skills-overlay,#contact-overlay').forEach(el => el.classList.remove('visible'));
+    });
+
+    // Custom cursor
+    const cur = document.getElementById('cursor');
+    const dot = document.getElementById('cursor-dot');
+    let cx = 0, cy = 0, dx = 0, dy = 0;
+    window.addEventListener('mousemove', e => { dx = e.clientX; dy = e.clientY; dot.style.left = dx+'px'; dot.style.top = dy+'px'; });
+    (function moveCursor() {
+        cx += (dx - cx) * 0.15;
+        cy += (dy - cy) * 0.15;
+        cur.style.left = cx + 'px';
+        cur.style.top  = cy + 'px';
+        requestAnimationFrame(moveCursor);
+    })();
+    window.addEventListener('mouseover', e => {
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') cur.classList.add('hovering');
+        else cur.classList.remove('hovering');
+    });
+</script>
+</body>
+</html>
